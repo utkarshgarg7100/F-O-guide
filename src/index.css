@@ -1,0 +1,35 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Geist Variable', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+
+  /* Surfaces: cool near-black, one accent */
+  --color-ink: #0b0d10;
+  --color-panel: #12151a;
+  --color-raised: #1a1e25;
+  --color-line: #242a33;
+  --color-muted: #8a93a3;
+  --color-fg: #e8ebf0;
+  --color-accent: #4fd1a5;
+  --color-accent-ink: #062018;
+  --color-loss: #f2777a;
+}
+
+body {
+  @apply bg-ink text-fg font-sans antialiased;
+}
+
+.num {
+  @apply font-mono tabular-nums;
+}
+
+@keyframes step-in-next {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes step-in-back {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: none; }
+}
