@@ -32,6 +32,8 @@ export default function ContractCard({ contract, symbol, lotSize, budget, select
     >
       <input type="radio" name="contract" checked={selected} onChange={onSelect} className="sr-only" />
 
+      <p className="text-sm leading-relaxed text-muted">{TERM_HINTS.optionType(contract.type, symbol)}</p>
+
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <div className="flex flex-col">
           <span className="flex items-center gap-2">

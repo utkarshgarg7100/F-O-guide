@@ -1,6 +1,7 @@
 import WizardNav from '../components/WizardNav.jsx'
 import { getStock } from '../data/stocks.js'
 import { getStrategyForView } from '../data/strategies.js'
+import { TERM_HINTS } from '../data/terms.js'
 import { getTimeframe } from '../data/timeframes.js'
 import { formatINR } from '../lib/format.js'
 import { useWizard } from '../wizard/WizardContext.jsx'
@@ -22,6 +23,9 @@ export default function StrategyStep() {
   return (
     <div className="flex flex-col gap-8">
       <article className="flex flex-col gap-6 rounded-xl border border-accent/40 bg-panel p-5 sm:p-6">
+        <p className="rounded-lg border border-line bg-raised/60 px-4 py-3 text-sm leading-relaxed">
+          {TERM_HINTS.optionType(strategy.optionType, stock.symbol)}
+        </p>
         <header className="flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-col gap-1">
             <p className="text-sm text-accent">Recommended for you</p>

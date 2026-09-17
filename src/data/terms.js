@@ -1,5 +1,9 @@
 // Plain-English hints shown right under each number. Short on purpose: they sit inside tight grids.
 export const TERM_HINTS = {
+  optionType: (type, symbol) =>
+    type === 'CE'
+      ? `A Call gives you the right to buy ${symbol} at the strike price — you profit if the price goes up.`
+      : `A Put gives you the right to sell ${symbol} at the strike price — you profit if the price goes down.`,
   strike: (type) => (type === 'CE' ? 'The price you get the right to buy at' : 'The price you get the right to sell at'),
   premium: 'Price of the option, per share',
   lotSize: 'Shares per contract; options are sold only in lots',
