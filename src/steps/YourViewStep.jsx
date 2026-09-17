@@ -60,13 +60,19 @@ export default function YourViewStep() {
         </div>
       </div>
 
-      <ChoiceGroup
-        name="timeframe"
-        legend="How soon do you expect the move?"
-        value={state.timeframe}
-        onChange={(timeframe) => update({ timeframe })}
-        options={TIMEFRAMES}
-      />
+      <div className="flex flex-col gap-3">
+        <ChoiceGroup
+          name="timeframe"
+          legend="How soon do you expect the move?"
+          value={state.timeframe}
+          onChange={(timeframe) => update({ timeframe })}
+          options={TIMEFRAMES}
+        />
+        <p className="text-sm text-muted">
+          Longer timeframes cost more per contract, since you're paying for more time — but give your view more room to
+          play out.
+        </p>
+      </div>
 
       <WizardNav canContinue={canContinue} onContinue={handleContinue} />
     </div>

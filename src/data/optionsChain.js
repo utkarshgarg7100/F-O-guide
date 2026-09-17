@@ -50,3 +50,16 @@ export const CHAINS = Object.fromEntries(STOCKS.map((s) => [s.symbol, buildChain
 
 export const getContracts = (symbol, { expiryId, type } = {}) =>
   CHAINS[symbol].filter((c) => (!expiryId || c.expiryId === expiryId) && (!type || c.type === type))
+
+/**
+ * Same strike and type at a neighbouring expiry, for "why does time cost more" comparisons:
+ * the next shorter expiry if there is one, otherwise the next longer.
+ */
+export function getExpiryComparison(contract) {
+  const i = EXPIRIES.findIndex((e) => e.id === contract.expiryId)
+  const otherExpiry = EXPIRIES[i > 0 ? i - 1 : i + 1]
+  const other = CHAINS[contract.symbol].find(
+    (c) => c.expiryId === otherExpiry.id && c.type === contract.type && c.strike === contract.strike,
+  )
+  return { expiry: EXPIRIES[i], other, otherExpiry }
+}

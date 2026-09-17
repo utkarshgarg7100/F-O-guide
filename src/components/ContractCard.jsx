@@ -2,6 +2,7 @@ import { TERM_HINTS } from '../data/terms.js'
 import { lotCost, lotsWithinBudget } from '../lib/contracts.js'
 import { formatPrice as price } from '../lib/format.js'
 import BreakevenDetail from './BreakevenDetail.jsx'
+import ExpiryCostNote from './ExpiryCostNote.jsx'
 import MoneynessBadge from './MoneynessBadge.jsx'
 
 // Leverage vs. consistency, never safety vs. risk.
@@ -66,6 +67,8 @@ export default function ContractCard({ contract, symbol, lotSize, budget, select
         note={TERM_HINTS.breakevenWhy(contract.type, symbol)}
         noteClassName={hintVisibility}
       />
+
+      <ExpiryCostNote contract={contract} className={hintVisibility} />
 
       <p className="text-sm leading-relaxed text-muted">{TRADE_OFFS[contract.moneyness]}</p>
     </label>

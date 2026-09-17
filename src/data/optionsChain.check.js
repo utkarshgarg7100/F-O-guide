@@ -1,6 +1,6 @@
 // Run: node src/data/optionsChain.check.js
 import assert from 'node:assert/strict'
-import { CHAINS, EXPIRIES, getContracts } from './optionsChain.js'
+import { CHAINS, EXPIRIES, getContracts, getExpiryComparison } from './optionsChain.js'
 
 const rank = { ITM: 2, ATM: 1, OTM: 0 }
 for (const symbol of Object.keys(CHAINS)) {
@@ -17,5 +17,10 @@ for (const symbol of Object.keys(CHAINS)) {
     near.forEach((c, i) => assert.ok(far[i].premium > c.premium, `${symbol} ${c.strike}${c.type} longer expiry costs more`))
   }
   console.table(CHAINS[symbol])
+}
+for (const c of Object.values(CHAINS).flat()) {
+  const { expiry, other, otherExpiry } = getExpiryComparison(c)
+  assert.ok(other && other.strike === c.strike && other.type === c.type && otherExpiry.id !== expiry.id)
+  assert.equal(otherExpiry.days < expiry.days, other.premium < c.premium, 'more days must mean a higher premium')
 }
 console.log('chain checks passed')
