@@ -4,6 +4,9 @@ export const TERM_HINTS = {
     type === 'CE'
       ? `A Call lets you buy ${symbol} later at a price fixed today, so you profit if the price goes up.`
       : `A Put lets you sell ${symbol} later at a price fixed today, so you profit if the price goes down.`,
+  // Step 2 version: no prices yet, just what the trade is for.
+  optionTypeShort: (type, symbol) =>
+    type === 'CE' ? `A Call lets you profit if ${symbol}'s price goes up.` : `A Put lets you profit if ${symbol}'s price goes down.`,
   strike: (type) => (type === 'CE' ? 'The price you get the right to buy at' : 'The price you get the right to sell at'),
   premium: 'Price of the option, per share',
   lotSize: 'Shares per contract; options are sold only in lots',

@@ -24,7 +24,7 @@ export default function StrategyStep() {
     <div className="flex flex-col gap-8">
       <article className="flex flex-col gap-6 rounded-xl border border-accent/40 bg-panel p-5 sm:p-6">
         <p className="rounded-lg border border-line bg-raised/60 px-4 py-3 text-sm leading-relaxed">
-          {TERM_HINTS.optionType(strategy.optionType, stock.symbol)}
+          {TERM_HINTS.optionTypeShort(strategy.optionType, stock.symbol)}
         </p>
         <header className="flex flex-wrap items-end justify-between gap-4">
           <div className="flex flex-col gap-1">
