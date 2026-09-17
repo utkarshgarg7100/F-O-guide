@@ -1,5 +1,15 @@
 import { formatPrice } from '../lib/format.js'
 
+// Middle row is the worked example of why breakeven, not direction alone, decides profit.
+const ScenarioText = ({ kind, text }) => (
+  <>
+    {kind === 'partial' && (
+      <span className="mb-1 block text-xs font-medium text-fg">Why breakeven matters: right direction, still a loss</span>
+    )}
+    {text}
+  </>
+)
+
 const NetResult = ({ net }) => (
   <span className={`num whitespace-nowrap ${net > 0 ? 'text-accent' : 'text-loss'}`}>
     {net > 0 ? '+' : '-'}
@@ -15,7 +25,7 @@ export default function ExpiryScenarios({ order }) {
 
   const describe = {
     worthless: `At or ${isCall ? 'below' : 'above'} ${strike}: the option expires worthless and you lose the full premium.`,
-    partial: `Between ${strike} and ${be}: the option has some value, but less than you paid.`,
+    partial: `${stock.symbol} ${isCall ? 'rose' : 'fell'} from today's ${formatPrice(stock.price)}, so it moved your way, but stayed short of ${be}. The option is worth less than you paid, so the position is still at a loss.`,
     profit: `${isCall ? 'Above' : 'Below'} ${be}: the option is worth more than you paid.`,
   }
 
@@ -26,14 +36,19 @@ export default function ExpiryScenarios({ order }) {
       {/* Mobile: one card per outcome */}
       <ul className="flex flex-col gap-2 sm:hidden">
         {scenarios.map((s) => (
-          <li key={s.kind} className="flex flex-col gap-2 rounded-xl border border-line bg-panel p-4 text-sm">
+          <li
+            key={s.kind}
+            className={`flex flex-col gap-2 rounded-xl border bg-panel p-4 text-sm ${s.kind === 'partial' ? 'border-muted/40' : 'border-line'}`}
+          >
             <div className="flex items-baseline justify-between gap-3">
               <span className="text-muted">
                 {stock.symbol} at <span className="num text-fg">{formatPrice(s.expiryPrice)}</span>
               </span>
               <NetResult net={s.net} />
             </div>
-            <p className="text-muted">{describe[s.kind]}</p>
+            <p className="text-muted">
+              <ScenarioText kind={s.kind} text={describe[s.kind]} />
+            </p>
             <p className="text-xs text-muted/80">
               Option worth <span className="num">{formatPrice(s.payoff)}</span>
             </p>
@@ -53,9 +68,11 @@ export default function ExpiryScenarios({ order }) {
           </thead>
           <tbody className="divide-y divide-line">
             {scenarios.map((s) => (
-              <tr key={s.kind}>
+              <tr key={s.kind} className={s.kind === 'partial' ? 'bg-raised/40' : ''}>
                 <td className="num whitespace-nowrap px-4 py-3 align-top">{formatPrice(s.expiryPrice)}</td>
-                <td className="px-4 py-3 align-top text-muted">{describe[s.kind]}</td>
+                <td className="px-4 py-3 align-top text-muted">
+                  <ScenarioText kind={s.kind} text={describe[s.kind]} />
+                </td>
                 <td className="num whitespace-nowrap px-4 py-3 text-right align-top">{formatPrice(s.payoff)}</td>
                 <td className="px-4 py-3 text-right align-top">
                   <NetResult net={s.net} />

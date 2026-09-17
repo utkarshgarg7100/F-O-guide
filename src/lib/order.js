@@ -16,6 +16,8 @@ export function buildOrder({ stock, contract, expiry, budget }) {
   const totalCost = toPaise(costPerLot * lots)
   const be = toPaise(breakeven(contract))
   const dir = contract.type === 'CE' ? 1 : -1
+  // Past both the strike (so the option has value) and today's price (so the move went the user's way).
+  const favourableStart = dir > 0 ? Math.max(contract.strike, stock.price) : Math.min(contract.strike, stock.price)
 
   const scenario = (kind, expiryPrice) => {
     const payoff = payoffAtExpiry(contract, expiryPrice, quantity)
@@ -35,7 +37,8 @@ export function buildOrder({ stock, contract, expiry, budget }) {
     breakeven: be,
     scenarios: [
       scenario('worthless', contract.strike),
-      scenario('partial', toTick(contract.strike + (dir * contract.premium) / 3)),
+      // A move in the predicted direction from today's price, still short of breakeven.
+      scenario('partial', toTick(favourableStart + (be - favourableStart) / 3)),
       scenario('profit', toTick(contract.strike + dir * 2.5 * contract.premium)),
     ],
   }

@@ -4,6 +4,10 @@ export const TERM_HINTS = {
   premium: 'Price of the option, per share',
   lotSize: 'Shares per contract; options are sold only in lots',
   breakeven: (type, symbol) => `${symbol} must close ${type === 'CE' ? 'above' : 'below'} this at expiry to profit`,
+  breakevenWhy: (type, symbol) =>
+    type === 'CE'
+      ? `A rise alone isn't enough: ${symbol} must close above this price at expiry for the trade to make money.`
+      : `A fall alone isn't enough: ${symbol} must close below this price at expiry for the trade to make money.`,
   spot: 'Where the share trades today',
   expiry: 'Last day the option exists',
   lotCost: 'Premium × lot size',

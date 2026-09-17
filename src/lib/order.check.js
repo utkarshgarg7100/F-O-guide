@@ -19,6 +19,7 @@ for (const stock of STOCKS) {
       assert.equal(order.totalCost, order.lots * order.costPerLot)
       assert.equal(worthless.net, -order.maxLoss)
       assert.ok(beyond(partial.expiryPrice, contract.strike) && beyond(order.breakeven, partial.expiryPrice))
+      assert.ok(beyond(partial.expiryPrice, stock.price), `${stock.symbol} ${contract.strike}${contract.type} partial row must be a favourable move`)
       assert.ok(partial.payoff > 0 && partial.net < 0, 'partial: some value, net loss')
       assert.notEqual(partial.payoff, -partial.net, 'quiz amounts must not coincide')
       assert.ok(beyond(profit.expiryPrice, order.breakeven) && profit.net > 0, 'profit past breakeven')

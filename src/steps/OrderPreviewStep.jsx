@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ComprehensionCheck from '../components/ComprehensionCheck.jsx'
+import BreakevenDetail from '../components/BreakevenDetail.jsx'
 import DetailGrid from '../components/DetailGrid.jsx'
 import ExpiryScenarios from '../components/ExpiryScenarios.jsx'
 import SettlementNote from '../components/SettlementNote.jsx'
@@ -33,9 +34,11 @@ export default function OrderPreviewStep() {
             { label: 'Lot size', value: stock.lotSize.toLocaleString('en-IN'), hint: TERM_HINTS.lotSize },
             { label: 'Cost per lot', value: formatPrice(order.costPerLot), hint: TERM_HINTS.lotCost },
             { label: 'Lots within budget', value: order.lots, hint: TERM_HINTS.lots },
-            { label: 'Breakeven', value: formatPrice(order.breakeven), hint: TERM_HINTS.breakeven(contract.type, stock.symbol) },
           ]}
         />
+        <div className="border-t border-line pt-5">
+          <BreakevenDetail contract={contract} note={TERM_HINTS.breakeven(contract.type, stock.symbol)} />
+        </div>
         <div className="grid grid-cols-1 gap-4 border-t border-line pt-5 sm:grid-cols-2">
           <div className="flex flex-col gap-0.5">
             <span className="text-sm text-muted">Total cost</span>

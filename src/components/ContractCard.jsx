@@ -1,6 +1,7 @@
 import { TERM_HINTS } from '../data/terms.js'
-import { breakeven, lotCost, lotsWithinBudget } from '../lib/contracts.js'
+import { lotCost, lotsWithinBudget } from '../lib/contracts.js'
 import { formatPrice as price } from '../lib/format.js'
+import BreakevenDetail from './BreakevenDetail.jsx'
 import MoneynessBadge from './MoneynessBadge.jsx'
 
 // Leverage vs. consistency, never safety vs. risk.
@@ -20,7 +21,6 @@ export default function ContractCard({ contract, symbol, lotSize, budget, select
     ['Premium / share', price(contract.premium), TERM_HINTS.premium],
     ['Lot size', lotSize.toLocaleString('en-IN'), TERM_HINTS.lotSize],
     ['Total cost (1 lot)', price(cost), TERM_HINTS.lotCost],
-    ['Breakeven', price(breakeven(contract)), TERM_HINTS.breakeven(contract.type, symbol)],
   ]
 
   return (
@@ -49,7 +49,7 @@ export default function ContractCard({ contract, symbol, lotSize, budget, select
         </span>
       </div>
 
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3">
         {metrics.map(([label, value, hint]) => (
           <div key={label} className="flex flex-col gap-0.5">
             <dt className="text-xs text-muted">{label}</dt>
@@ -60,6 +60,12 @@ export default function ContractCard({ contract, symbol, lotSize, budget, select
           </div>
         ))}
       </dl>
+
+      <BreakevenDetail
+        contract={contract}
+        note={TERM_HINTS.breakevenWhy(contract.type, symbol)}
+        noteClassName={hintVisibility}
+      />
 
       <p className="text-sm leading-relaxed text-muted">{TRADE_OFFS[contract.moneyness]}</p>
     </label>

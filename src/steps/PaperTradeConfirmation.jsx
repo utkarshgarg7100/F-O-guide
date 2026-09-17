@@ -1,3 +1,4 @@
+import BreakevenDetail from '../components/BreakevenDetail.jsx'
 import DetailGrid from '../components/DetailGrid.jsx'
 import { TERM_HINTS } from '../data/terms.js'
 import { formatINR, formatPrice } from '../lib/format.js'
@@ -30,10 +31,11 @@ export default function PaperTradeConfirmation() {
           { label: 'Premium / share', value: formatPrice(contract.premium), hint: TERM_HINTS.premium },
           { label: 'Total paid', value: formatPrice(order.totalCost), hint: TERM_HINTS.totalCost },
           { label: 'Max loss', value: formatPrice(order.maxLoss), hint: TERM_HINTS.maxLoss },
-          { label: 'Breakeven', value: formatPrice(order.breakeven), hint: TERM_HINTS.breakeven(contract.type, stock.symbol) },
           { label: 'Budget left', value: formatINR(Math.floor(order.budget - order.totalCost)) },
         ]}
       />
+
+      <BreakevenDetail contract={contract} note={TERM_HINTS.breakeven(contract.type, stock.symbol)} />
 
       <p className="rounded-lg bg-accent/10 px-4 py-3 text-sm">
         <span className="font-medium text-accent">Exit plan:</span> square off (sell the option back) before{' '}
